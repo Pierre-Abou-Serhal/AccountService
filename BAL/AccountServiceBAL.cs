@@ -1,39 +1,141 @@
-﻿namespace BAL;
+﻿using System.Data;
+using DAL;
+using Dapper;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic.CompilerServices;
+
+namespace BAL;
 
 public class AccountServiceBAL
 {
+    private readonly AppSetting _appSetting;
+
+    public AccountServiceBAL(IOptions<AppSetting> appSettings)
+    {
+        _appSetting = appSettings.Value;
+    }
+    
     public async Task<GetAccountsRes> GetAllAccounts()
     {
-        return new GetAccountsRes();
+        GetAccountsRes res = new ();
+
+        Dal dal = new(_appSetting.ConnString);
+
+        res.AccountList = await dal.executeSqlQueryMultiRows<Account>("usp_GetAllAccounts", null, CommandType.StoredProcedure, Dal.QueryType.SELECT);
+        
+        return res;
     }
 
-    public async Task<GetAccountRes> GetAccountById(int Id)
+    public async Task<GetAccountRes> GetAccountById(int id)
     {
-        return new GetAccountRes();
+        GetAccountRes res = new ();
+
+        Dal dal = new(_appSetting.ConnString);
+
+        DynamicParameters queryParams = new ();
+            
+        queryParams.Add("AccountId", id);
+        
+        res.Account = await dal.executeSqlQuerySingleRow<Account>("usp_GetAccountById", queryParams, CommandType.StoredProcedure, Dal.QueryType.SELECT) ?? new ();
+        
+        return res;
     }
 
     public async Task<CreateAccountRes> CreateAccount(CreateAccountReq req)
     {
-        return new CreateAccountRes();
+        CreateAccountRes res = new ();
+
+        Dal dal = new(_appSetting.ConnString);
+
+        DynamicParameters queryParams = new ();
+            
+        queryParams.Add("AccountId", req.Account.Id);
+        queryParams.Add("AccountHolderName", req.Account.AccountHolderName);
+        queryParams.Add("InitialDeposit", req.Account.InitialDeposit);
+        queryParams.Add("AccountType", req.Account.AccountType);
+        
+        res.Account = await dal.executeSqlQuerySingleRow<Account>("usp_UpdateAccount", queryParams, CommandType.StoredProcedure, Dal.QueryType.UPDATE) ?? new ();
+        
+        return res;
     }
 
     public async Task<UpdateAccountRes> UpdateAccount(UpdateAccountReq req)
     {
-        return new UpdateAccountRes();
+        UpdateAccountRes res = new ();
+
+        Dal dal = new(_appSetting.ConnString);
+
+        DynamicParameters queryParams = new ();
+            
+        queryParams.Add("AccountId", req.Account.Id);
+        queryParams.Add("AccountHolderName", req.Account.AccountHolderName);
+        queryParams.Add("InitialDeposit", req.Account.InitialDeposit);
+        queryParams.Add("AccountType", req.Account.AccountType);
+        
+        res.Account = await dal.executeSqlQuerySingleRow<Account>("usp_UpdateAccount", queryParams, CommandType.StoredProcedure, Dal.QueryType.UPDATE) ?? new ();
+        
+        return res;
     }
 
-    public async Task<DeleteAccountRes> DeleteAccount(DeleteAccountReq req)
+    public async Task<DeleteAccountRes> DeleteAccount(int id)
     {
-        return new DeleteAccountRes();
+        DeleteAccountRes res = new ();
+
+        Dal dal = new(_appSetting.ConnString);
+
+        DynamicParameters queryParams = new ();
+            
+        queryParams.Add("AccountId", id);
+        
+        res.Account = await dal.executeSqlQuerySingleRow<Account>("usp_DeleteAccount", queryParams, CommandType.StoredProcedure, Dal.QueryType.DELETE) ?? new ();
+        
+        return res;
     }
 
     public async Task<DepositRes> Deposit(DepositReq req)
     {
-        return new DepositRes();
+        DepositRes res = new ();
+
+        Dal dal = new(_appSetting.ConnString);
+
+        DynamicParameters queryParams = new ();
+            
+        queryParams.Add("AccountId", req.Transaction.AccountId);
+        queryParams.Add("Amount", Math.Abs(req.Transaction.Amount));
+        
+        res.Transaction = await dal.executeSqlQuerySingleRow<Transaction>("usp_CreateTransaction", queryParams, CommandType.StoredProcedure, Dal.QueryType.UPDATE) ?? new ();
+        
+        return res;
     }
 
     public async Task<WithdrawRes> Withdraw(WithdrawReq req)
     {
-        return new WithdrawRes();
+        WithdrawRes res = new ();
+
+        Dal dal = new(_appSetting.ConnString);
+
+        DynamicParameters queryParams = new ();
+            
+        queryParams.Add("AccountId", req.Transaction.AccountId);
+        queryParams.Add("Amount", -Math.Abs(req.Transaction.Amount));
+        
+        res.Transaction = await dal.executeSqlQuerySingleRow<Transaction>("usp_CreateTransaction", queryParams, CommandType.StoredProcedure, Dal.QueryType.UPDATE) ?? new ();
+        
+        return res;
+    }
+    
+    public async Task<GetAccountBalanceRes> GetAccountBalance(int id)
+    {
+        GetAccountBalanceRes res = new ();
+
+        Dal dal = new(_appSetting.ConnString);
+
+        DynamicParameters queryParams = new ();
+            
+        queryParams.Add("AccountId", id);
+        
+        res.Balance = await dal.executeSqlQuerySingleRow<Decimal>("usp_GetAccountBalance", queryParams, CommandType.StoredProcedure, Dal.QueryType.SELECT);
+        
+        return res;
     }
 }

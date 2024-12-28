@@ -13,6 +13,7 @@ COPY AccountService.sln .
 # Ensure you have a solution file
 COPY AccountService/*.csproj AccountService/
 COPY BAL/*.csproj BAL/
+COPY DAL/*.csproj DAL/
 
 # Restore dependencies
 RUN dotnet restore
@@ -20,6 +21,7 @@ RUN dotnet restore
 # Copy all the source code
 COPY AccountService/. AccountService/
 COPY BAL/. BAL/
+COPY DAL/. DAL/
 
 # Build the application
 WORKDIR "/src/AccountService"
@@ -34,4 +36,4 @@ RUN dotnet publish "AccountService.csproj" -c $BUILD_CONFIGURATION -o /app/publi
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AccountService.dll"]
+ENTRYPOINT ["dotnet", "AccountService.dll"]	

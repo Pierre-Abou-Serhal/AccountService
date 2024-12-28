@@ -7,7 +7,7 @@ public class GetAccountsRes
 
 public class GetAccountRes
 {
-    public Account Account { get; set; } = new();
+    public Account Account { get; set; } = new ();
 }
 
 public class CreateAccountRes
@@ -27,10 +27,15 @@ public class DeleteAccountRes
 
 public class DepositRes
 {
-    private Transaction Transaction { get; set; } = new();
+    public Transaction Transaction { get; set; } = new();
 }
 
 public class WithdrawRes
 {
-    private Transaction Transaction { get; set; } = new();
+    public Transaction Transaction { get; set; } = new();
+}
+
+public class GetAccountBalanceRes
+{
+    public decimal Balance { get; set; }
 }

@@ -13,3 +13,8 @@ public class Transaction
     public decimal Amount { get; set; }
     public int AccountId { get; set; }
 }
+
+public class AppSetting
+{
+    public String ConnString { get; set; } = string.Empty;
+}
