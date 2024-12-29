@@ -14,7 +14,10 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-					bat 'powershell -Command "minikube docker-env | Invoke-Expression"' // To build docker images directly inside kubernetes version of Docker
+					powershell '''
+						# To build docker images directly inside kubernetes version of Docker
+						minikube docker-env | Invoke-Expression
+					'''
                     bat "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                 }
             }
