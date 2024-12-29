@@ -7,6 +7,8 @@ pipeline {
         LOCAL_REGISTRY = 'localhost:5000'  // Local Docker registry
         K8S_NAMESPACE = 'default'  // Adjust your Kubernetes namespace
         KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig.yaml'
+        DEPLOYMENT_YAML_PATH = 'D:/Repos/AccountService/k8s/deployment.yaml'  // Path to your deployment YAML file
+        SERVICE_YAML_PATH = 'D:/Repos/AccountService/k8s/service.yaml'  // Path to your service YAML file
     }
 
     stages {
@@ -48,6 +50,12 @@ pipeline {
                 script {
                     // Set the Kubernetes context (if needed)
                     withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
+                        // Apply the deployment YAML file
+                        bat "kubectl apply -f ${DEPLOYMENT_YAML_PATH} --namespace=${K8S_NAMESPACE}"
+
+                        // Apply the service YAML file
+                        bat "kubectl apply -f ${SERVICE_YAML_PATH} --namespace=${K8S_NAMESPACE}"
+
                         // Deploy the Docker image to your local Kubernetes cluster
                         bat "kubectl set image deployment/accountservice accountservice=${LOCAL_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} --namespace=${K8S_NAMESPACE}"
                     }
