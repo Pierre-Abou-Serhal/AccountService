@@ -36,7 +36,7 @@ pipeline {
 					docker info
 
 					# Build the Docker image
-					docker build -t $env:DOCKER_IMAGE_NAME:$env:DOCKER_IMAGE_TAG .
+					docker build -t accountservice-v1:latest .
 					
 					docker images
 					'''
