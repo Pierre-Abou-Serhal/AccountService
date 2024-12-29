@@ -10,14 +10,27 @@ pipeline {
     }
 
     stages {
+		stage('Set Docker Environment') {
+            steps {
+                powershell '''
+                # Run minikube docker-env to get environment variables
+                $minikubeEnv = minikube docker-env | Out-String
+
+                # Set the environment variables in the current session
+                $minikubeEnv.Split("`n") | ForEach-Object {
+                    if ($_ -match "^(.*)=(.*)$") {
+                        $envName = $matches[1].Trim()
+                        $envValue = $matches[2].Trim()
+                        [System.Environment]::SetEnvironmentVariable($envName, $envValue, [System.EnvironmentVariableTarget]::Process)
+                    }
+                }
+                '''
+            }
+        }
+	
         stage('Build Docker Image') {
             steps {
                 script {
-                    // build docker images directly inside kubernetes version of Docker
-					powershell '''
-						minikube docker-env | Invoke-Expression
-					'''
-					
 					// Build Docker image
                     bat "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                 }
