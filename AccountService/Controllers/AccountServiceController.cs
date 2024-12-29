@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace AccountService.Controllers;
 
+
 [ApiController]
 [Route("[controller]")]
 public class AccountServiceController : ControllerBase
