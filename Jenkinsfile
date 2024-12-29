@@ -8,40 +8,15 @@ pipeline {
         KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig.yaml'
         DEPLOYMENT_YAML_PATH = 'D:/Repos/AccountService/k8s/deployment.yaml'
         SERVICE_YAML_PATH = 'D:/Repos/AccountService/k8s/service.yaml'
-		MINIKUBE_PATH = 'D:\\Opp\\Minikube\\minikube.EXE'  // Path to your minikube installation
     }
 
     stages {
-		stage('Start Minikube') {
+		stage('Setup Minikube Docker Daemon') {
             steps {
-                script {
-                    echo "Starting Minikube..."
-                    bat "\"${env.MINIKUBE_PATH}\" start"
-                }
-            }
-        }
-
-        stage('Set Docker Environment') {
-            steps {
-                script {
-                    // Debugging: Print MINIKUBE_PATH to check if it's correctly set
-                    echo "MINIKUBE_PATH is: ${env.MINIKUBE_PATH}"
-
-                    // Check if MINIKUBE_PATH is not null or empty
-                    if (env.MINIKUBE_PATH == null || env.MINIKUBE_PATH == '') {
-                        error "MINIKUBE_PATH is not set properly."
-                    }
-
-                    // Run minikube docker-env to capture the environment variables
-                    def dockerEnv = bat(script: "\"${env.MINIKUBE_PATH}\" -p minikube docker-env", returnStdout: true).trim()
-                    echo "dockerEnv: ${dockerEnv}"
-
-                    // Set the environment variables using PowerShell
-                    bat """
-                    powershell -Command \
-                    '$dockerEnv | foreach { \$env:\$_.Split("=")[0] = \$_.Split("=")[1] }'
-                    """
-                }
+                powershell '''
+                # Switch Docker Daemon to Minikube's Docker Daemon
+                & minikube docker-env | Invoke-Expression
+                '''
             }
         }
 	
