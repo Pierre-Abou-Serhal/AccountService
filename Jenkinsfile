@@ -6,7 +6,7 @@ pipeline {
         DEPLOYMENT_YAML_PATH = 'D:/Repos/AccountService/k8s/deployment.yaml'
         SERVICE_YAML_PATH = 'D:/Repos/AccountService/k8s/service.yaml'
         IMAGE_NAME = 'accountservice-v1'
-        IMAGE_TAG = "1.0.0-${env.BUILD_NUMBER}"  // Using Jenkins build number for versioning
+        IMAGE_TAG = "1.0.0"  // Using Jenkins build number for versioning
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials-id'  // Jenkins Docker Hub credentials ID
     }
 
@@ -21,13 +21,13 @@ pipeline {
                         # Docker Login using injected credentials
                         docker login -u $env:DOCKER_USER -p $env:DOCKER_PASSWORD
 
-                        # Build Docker Image
-                        docker build -t $env:IMAGE_NAME:$env:IMAGE_TAG .
+                        # Build Docker Image with a tag that includes the version number
+                        docker build -t $env:DOCKER_USER/$env:IMAGE_NAME:$env:IMAGE_TAG .
 
                         # Show Docker images
                         docker images
 
-                        # Push Docker Image (if required)
+                        # Push Docker Image with the correct tag
                         docker push $env:DOCKER_USER/$env:IMAGE_NAME:$env:IMAGE_TAG
 
                         # Apply Kubernetes Deployment and Service
