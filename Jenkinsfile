@@ -37,6 +37,8 @@ pipeline {
 
 					# Build the Docker image
 					docker build -t $env:DOCKER_IMAGE_NAME:$env:DOCKER_IMAGE_TAG .
+					
+					docker images
 					'''
 				}
             }
