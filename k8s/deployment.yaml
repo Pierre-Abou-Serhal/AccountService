@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accountservice-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: accountservice
+  template:
+    metadata:
+      labels:
+        app: accountservice
+    spec:
+      containers:
+        - name: accountservice
+          image: accountservice:1.0.0
+          ports:
+            - containerPort: 80
