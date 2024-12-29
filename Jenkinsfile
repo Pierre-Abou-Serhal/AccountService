@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    bat 'docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} .'
+                    bat "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     // Run your tests (adjust to your specific testing framework)
-                    bat 'dotnet test D:/Repos/AccountService/AccountService.sln'
+                    bat "dotnet test D:/Repos/AccountService/AccountService.sln"
                 }
             }
         }
@@ -31,13 +31,13 @@ pipeline {
             steps {
                 script {
                     // Ensure the local Docker registry is running
-                    bat 'docker run -d -p 5000:5000 --name registry registry:2'
+                    bat "docker run -d -p 5000:5000 --name registry registry:2"
 
                     // Tag the image for local registry
-                    bat 'docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} localhost:5000/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}'
+                    bat "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} localhost:5000/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
 
                     // Push the image to local Docker registry
-                    bat 'docker push localhost:5000/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}'
+                    bat "docker push localhost:5000/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                 }
             }
         }
@@ -48,7 +48,7 @@ pipeline {
                     // Set the Kubernetes context (if needed)
                     withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
                         // Deploy the Docker image to your local Kubernetes cluster
-                        bat 'kubectl set image deployment/accountservice=localhost:5000/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} --namespace=${K8S_NAMESPACE}'
+                        bat "kubectl set image deployment/accountservice=localhost:5000/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} --namespace=${K8S_NAMESPACE}"
                     }
                 }
             }
@@ -58,7 +58,7 @@ pipeline {
 	post {
         always {
             // Clean up local Docker registry container after use
-            bat 'docker stop registry && docker rm registry'
+            bat "docker stop registry && docker rm registry"
         }
     }
 }
