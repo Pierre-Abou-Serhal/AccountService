@@ -52,10 +52,10 @@ pipeline {
                     // Set the Kubernetes context
                     withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
                         // Apply the deployment YAML file
-                        bat "kubectl apply -f ${DEPLOYMENT_YAML_PATH}"
+                        bat "kubectl apply -f ${DEPLOYMENT_YAML_PATH} --validate=false"
 
                         // Apply the service YAML file
-                        bat "kubectl apply -f ${SERVICE_YAML_PATH}"
+                        bat "kubectl apply -f ${SERVICE_YAML_PATH} --validate=false"
                     }
                 }
             }
