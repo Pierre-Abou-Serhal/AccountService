@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = 'accountservice-v1'
         DOCKER_IMAGE_TAG = 'latest'
-        HOST_IP = '192.168.16.1'  // Replace with your host machine's IP address
+        HOST_IP = 'localhost'  // Replace with your host machine's IP address
         LOCAL_REGISTRY = "${HOST_IP}:5000"
         K8S_NAMESPACE = 'default'
         KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig.yaml'
