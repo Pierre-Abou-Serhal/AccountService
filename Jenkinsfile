@@ -23,6 +23,9 @@ pipeline {
 					# Set DOCKER_TLS_VERIFY to 0
 					$env:DOCKER_TLS_VERIFY = "0"
 
+					# Log the value of DOCKER_TLS_VERIFY
+					Write-Host "DOCKER_TLS_VERIFY is set to: $env:DOCKER_TLS_VERIFY"
+
 					# Test connectivity to Minikube Docker daemon
 					Write-Host "Testing Docker connectivity..."
 					docker info
