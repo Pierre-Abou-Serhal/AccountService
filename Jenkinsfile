@@ -14,6 +14,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
+					bat "minikube docker-env | Invoke-Expression" // To build docker images directly inside kubernetes version of Docker
                     bat "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                 }
             }
@@ -24,15 +25,6 @@ pipeline {
                 script {
                     // Run your tests
                     bat "dotnet test D:/Repos/AccountService/AccountService.sln"
-                }
-            }
-        }
-		
-		stage('Push Docker Image To Registry') {
-            steps {
-                script {
-                    // Push to registry
-                    bat "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                 }
             }
         }
