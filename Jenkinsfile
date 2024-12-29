@@ -27,6 +27,15 @@ pipeline {
                 }
             }
         }
+		
+		stage('Push Docker Image To Registry') {
+            steps {
+                script {
+                    // Push to registry
+                    bat "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                }
+            }
+        }
 
         stage('Deploy to Kubernetes') {
             steps {
