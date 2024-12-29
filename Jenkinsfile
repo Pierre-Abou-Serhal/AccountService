@@ -1,6 +1,7 @@
 pipeline {
     agent any
 
+
     environment {
         DOCKER_IMAGE_NAME = 'accountservice-v1'
         DOCKER_IMAGE_TAG = 'latest'
