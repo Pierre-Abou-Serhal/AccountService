@@ -14,10 +14,9 @@ pipeline {
             steps {
                 script {
                     // build docker images directly inside kubernetes version of Docker
-					def status = powershell(returnStatus: true, script: 'minikube docker-env | Invoke-Expression')
-					if (status == 0) {
-						echo 'Docker client is now pointed to minikuibe Docker Daemon'
-					}
+					powershell '''
+						minikube docker-env | Invoke-Expression
+					'''
 					
 					// Build Docker image
                     bat "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
