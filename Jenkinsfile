@@ -8,6 +8,7 @@ pipeline {
         KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig.yaml'
         DEPLOYMENT_YAML_PATH = 'D:/Repos/AccountService/k8s/deployment.yaml'
         SERVICE_YAML_PATH = 'D:/Repos/AccountService/k8s/service.yaml'
+		MINIKUBE_PATH = 'D:\\Opp\\Minikube\\minikube.EXE'  // Path to your minikube installation
     }
 
     stages {
