@@ -14,8 +14,6 @@ pipeline {
             steps {
 				withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
 					powershell '''
-					# Switch to Minikube's Docker daemon
-					& minikube docker-env | Invoke-Expression
 
 					# Log the value of DOCKER_TLS_VERIFY
 					Write-Host "DOCKER_TLS_VERIFY is set to: $env:DOCKER_TLS_VERIFY"
