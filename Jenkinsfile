@@ -13,11 +13,11 @@ pipeline {
         stage('Setup Minikube Docker Daemon') {
             steps {
                 powershell '''
-				# Switch to Minikube's Docker daemon
-				& minikube docker-env | Invoke-Expression
-
 				# Set DOCKER_TLS_VERIFY to 0
 				$env:DOCKER_TLS_VERIFY = "0"
+				
+				# Switch to Minikube's Docker daemon
+				& minikube docker-env | Invoke-Expression
 
 				# Log the value of DOCKER_TLS_VERIFY
 				Write-Host "DOCKER_TLS_VERIFY is set to: $env:DOCKER_TLS_VERIFY"
