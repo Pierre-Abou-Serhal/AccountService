@@ -14,10 +14,19 @@ pipeline {
 		stage('Set Docker Environment') {
             steps {
                 script {
+                    // Debugging: Print MINIKUBE_PATH to check if it's correctly set
+                    echo "MINIKUBE_PATH is: ${env.MINIKUBE_PATH}"
+
+                    // Check if MINIKUBE_PATH is not null or empty
+                    if (env.MINIKUBE_PATH == null || env.MINIKUBE_PATH == '') {
+                        error "MINIKUBE_PATH is not set properly."
+                    }
+
                     // Run minikube docker-env to capture the environment variables
                     def dockerEnv = bat(script: "\"${env.MINIKUBE_PATH}\" -p minikube docker-env", returnStdout: true).trim()
+                    echo "dockerEnv: ${dockerEnv}"
 
-                    // Set the environment variables using a PowerShell command
+                    // Set the environment variables using PowerShell
                     bat """
                     powershell -Command \
                     '$dockerEnv | foreach { \$env:\$_.Split("=")[0] = \$_.Split("=")[1] }'
