@@ -15,7 +15,7 @@ pipeline {
             steps {
                 powershell '''
                 # Run minikube docker-env to get environment variables
-                $minikubeEnv = minikube docker-env | Out-String
+                $minikubeEnv = minikube docker-env
 
                 # Set the environment variables in the current session
                 $minikubeEnv.Split("`n") | ForEach-Object {
