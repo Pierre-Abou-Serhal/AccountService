@@ -15,6 +15,8 @@ pipeline {
                 powershell '''
                 & minikube docker-env | Invoke-Expression
 				
+				$env:DOCKER_TLS_VERIFY = "0"
+				
 				docker build -t $env:DOCKER_IMAGE_NAME:$env:DOCKER_IMAGE_TAG .
                 '''
             }
