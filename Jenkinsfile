@@ -16,9 +16,7 @@ pipeline {
         stage('Restore & Build') {
             steps {
                 echo 'Restoring and Building...'
-                dir('workspace/accountservice') {
-                    sh 'docker --version'
-                }
+                sh 'docker --version'
             }
         }
     }
