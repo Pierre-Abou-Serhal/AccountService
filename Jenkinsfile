@@ -12,7 +12,16 @@ pipeline {
     }
 
     stages {
-		stage('Set Docker Environment') {
+		stage('Start Minikube') {
+            steps {
+                script {
+                    echo "Starting Minikube..."
+                    bat "\"${env.MINIKUBE_PATH}\" start"
+                }
+            }
+        }
+
+        stage('Set Docker Environment') {
             steps {
                 script {
                     // Debugging: Print MINIKUBE_PATH to check if it's correctly set
