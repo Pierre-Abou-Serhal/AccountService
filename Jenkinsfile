@@ -57,7 +57,7 @@ pipeline {
                         bat "kubectl apply -f ${SERVICE_YAML_PATH} --namespace=${K8S_NAMESPACE}"
 
                         // Deploy the Docker image to your local Kubernetes cluster
-                        bat "kubectl set image deployment/accountservice accountservice=${LOCAL_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} --namespace=${K8S_NAMESPACE}"
+                        bat "kubectl set image deployment/accountservice-deployment accountservice=${LOCAL_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} --namespace=${K8S_NAMESPACE}"
                     }
                 }
             }
