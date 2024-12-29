@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = 'accountservice-v1'
         DOCKER_IMAGE_TAG = 'latest'
-        K8S_NAMESPACE = 'default'
         KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig.yaml'
         DEPLOYMENT_YAML_PATH = 'D:/Repos/AccountService/k8s/deployment.yaml'
         SERVICE_YAML_PATH = 'D:/Repos/AccountService/k8s/service.yaml'
@@ -35,20 +34,13 @@ pipeline {
                     // Set the Kubernetes context
                     withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
                         // Apply the deployment YAML file
-                        bat "kubectl apply -f ${DEPLOYMENT_YAML_PATH} --namespace=${K8S_NAMESPACE}"
+                        bat "kubectl apply -f ${DEPLOYMENT_YAML_PATH}"
 
                         // Apply the service YAML file
-                        bat "kubectl apply -f ${SERVICE_YAML_PATH} --namespace=${K8S_NAMESPACE}"
+                        bat "kubectl apply -f ${SERVICE_YAML_PATH}"
                     }
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            // Clean up local Docker registry container after use
-            bat "docker stop registry && docker rm registry"
         }
     }
 }
