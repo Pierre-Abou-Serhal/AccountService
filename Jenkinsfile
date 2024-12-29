@@ -46,8 +46,8 @@ pipeline {
             steps {
                 script {
                     withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
-                        bat "kubectl apply -f ${DEPLOYMENT_YAML_PATH} --validate=false"
-                        bat "kubectl apply -f ${SERVICE_YAML_PATH} --validate=false"
+                        bat "kubectl apply -f ${DEPLOYMENT_YAML_PATH}"
+                        bat "kubectl apply -f ${SERVICE_YAML_PATH}"
                     }
                 }
             }
