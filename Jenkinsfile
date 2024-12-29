@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = 'accountservice-v1'
-        DOCKER_IMAGE_TAG = 'latest'
         KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig.yaml'
         DEPLOYMENT_YAML_PATH = 'D:/Repos/AccountService/k8s/deployment.yaml'
         SERVICE_YAML_PATH = 'D:/Repos/AccountService/k8s/service.yaml'
@@ -19,7 +17,7 @@ pipeline {
 					docker info
 
 					# Build the Docker image
-					docker build -t accountservice-v1:latest .
+					docker build -t accountservice-v1:1.0.0 .
 					
 					docker images
 					
