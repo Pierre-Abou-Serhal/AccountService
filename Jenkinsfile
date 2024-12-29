@@ -22,13 +22,13 @@ pipeline {
                         docker login -u $env:DOCKER_USER -p $env:DOCKER_PASSWORD
 
                         # Build Docker Image with a tag that includes the version number
-                        docker build -t $env:DOCKER_USER/$env:IMAGE_NAME:$env:IMAGE_TAG .
+                        docker build -t pierreas/accountservice-v1:1.0.0 .
 
                         # Show Docker images
                         docker images
 
                         # Push Docker Image with the correct tag
-                        docker push $env:DOCKER_USER/$env:IMAGE_NAME:$env:IMAGE_TAG
+                        docker push pierreas/accountservice-v1:1.0.0
 
                         # Apply Kubernetes Deployment and Service
                         kubectl apply -f $env:DEPLOYMENT_YAML_PATH
