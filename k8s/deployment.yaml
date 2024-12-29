@@ -15,5 +15,6 @@ spec:
       containers:
         - name: accountservice
           image: accountservice-v1:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 80

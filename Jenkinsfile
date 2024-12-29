@@ -14,15 +14,9 @@ pipeline {
             steps {
                 powershell '''
                 & minikube docker-env | Invoke-Expression
+				
+				docker build -t $env:DOCKER_IMAGE_NAME:$env:DOCKER_IMAGE_TAG .
                 '''
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    bat "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-                }
             }
         }
 
