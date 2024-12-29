@@ -1,4 +1,6 @@
 pipeline {
+	agent any
+
     environment {
         DOCKER_IMAGE = "accountservice"
         REGISTRY = "localhost:5000" // Local Docker registry
