@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git(branch: 'main', url: 'file:///var/jenkins_home/workspace/accountservice')
+                git('https://github.com/Pierre-Abou-Serhal/AccountService.git')
             }
         }
 
