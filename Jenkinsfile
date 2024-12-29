@@ -39,19 +39,11 @@ pipeline {
 					docker build -t accountservice-v1:latest .
 					
 					docker images
+					
+					kubectl apply -f $env:DEPLOYMENT_YAML_PATH
+					kubectl apply -f $env:SERVICE_YAML_PATH
 					'''
 				}
-            }
-        }
-
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
-                        bat "kubectl apply -f ${DEPLOYMENT_YAML_PATH}"
-                        bat "kubectl apply -f ${SERVICE_YAML_PATH}"
-                    }
-                }
             }
         }
     }
