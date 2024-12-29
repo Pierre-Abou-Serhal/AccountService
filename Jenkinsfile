@@ -42,33 +42,6 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    bat "dotnet test D:/Repos/AccountService/AccountService.sln"
-                }
-            }
-        }
-
-        stage('Setup Kubernetes Context') {
-            steps {
-                script {
-                    bat "minikube update-context"
-                }
-            }
-        }
-
-        stage('Debug Kubernetes API') {
-            steps {
-                script {
-                    withEnv(["KUBECONFIG=${KUBECONFIG_PATH}"]) {
-                        bat "kubectl cluster-info"
-                        bat "kubectl get nodes"
-                    }
-                }
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             steps {
                 script {
