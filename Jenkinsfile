@@ -38,6 +38,14 @@ pipeline {
             }
         }
 
+		stage('Setup Kubernetes Context') {
+			steps {
+				script {
+					bat "minikube update-context"
+				}
+			}
+		}
+
         stage('Deploy to Kubernetes') {
             steps {
                 script {
