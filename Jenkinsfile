@@ -14,13 +14,7 @@ pipeline {
 		stage('Set Docker Environment') {
             steps {
                 script {
-                    // Run the minikube docker-env command and capture the environment variables
-                    def dockerEnv = bat(script: 'minikube docker-env', returnStdout: true).trim()
-
-                    // Set the environment variables for Docker in the Jenkins environment
-                    bat """
-                    $dockerEnv | Invoke-Expression
-                    """
+                    bat "minikube -p minikube docker-env --shell powershell | Invoke-Expression"
                 }
             }
         }
