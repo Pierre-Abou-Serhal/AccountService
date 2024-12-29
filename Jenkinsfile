@@ -16,7 +16,7 @@ pipeline {
         stage('Restore & Build') {
             steps {
                 echo 'Restoring and Building...'
-                sh 'docker --version'
+                bat 'docker --version'
             }
         }
     }
