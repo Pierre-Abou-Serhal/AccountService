@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: accountservice
-          image: localhost:5000/accountservice-v1:latest
+          image: accountservice-v1:latest
           ports:
             - containerPort: 80
