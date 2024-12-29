@@ -24,7 +24,7 @@ pipeline {
 
 					# Set DOCKER_TLS_VERIFY to 0
 					$env:DOCKER_TLS_VERIFY = "0"
-					$env:DOCKER_CERT_PATH = "C:\Users\Pierre A.S\.minikube\certs"
+					$env:DOCKER_CERT_PATH = "C:/Users/Pierre A.S/.minikube/certs"
 
 					# Log the value of DOCKER_TLS_VERIFY
 					Write-Host "DOCKER_TLS_VERIFY is set to: $env:DOCKER_TLS_VERIFY"
