@@ -39,34 +39,14 @@ pipeline {
             }
         }
 
-        stage('Set KUBECONFIG') {
+        stage('Apply Kubernetes Deployment + Service') {
             steps {
                 script {
                     echo "Setting KUBECONFIG environment variable..."
                     powershell '''
                         $env:KUBECONFIG = "$env:KUBECONFIG_PATH"
-                    '''
-                }
-            }
-        }
-
-        stage('Apply Kubernetes Deployment') {
-            steps {
-                script {
-                    echo "Applying Kubernetes Deployment..."
-                    powershell '''
-                        kubectl apply -f $env:DEPLOYMENT_YAML_PATH
-                    '''
-                }
-            }
-        }
-
-        stage('Apply Kubernetes Service') {
-            steps {
-                script {
-                    echo "Applying Kubernetes Service..."
-                    powershell '''
-                        kubectl apply -f $env:SERVICE_YAML_PATH
+						kubectl apply -f $env:DEPLOYMENT_YAML_PATH
+						kubectl apply -f $env:SERVICE_YAML_PATH
                     '''
                 }
             }
