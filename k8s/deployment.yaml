@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: accountservice
-          image: accountservice-v1:1.0.0
-          imagePullPolicy: Never
+          image: pierreas/accountservice-v1:1.0.0
           ports:
             - containerPort: 80
+      imagePullSecrets:
+        - name: dockerhub-secret
