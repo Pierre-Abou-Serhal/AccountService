@@ -5,6 +5,7 @@ pipeline {
 		KUBECONFIG_PATH = "${env.WORKSPACE}/kubeconfig"
         DEPLOYMENT_YAML_PATH = "${env.WORKSPACE}/k8s/deployment.yaml"
         SERVICE_YAML_PATH = "${env.WORKSPACE}/k8s/service.yaml"
+		HPA_YAML_PATH = "${env.WORKSPACE}/k8s/hpa.yaml"
         IMAGE_NAME = "pierreas/accountservice-v1"
         IMAGE_TAG = "1.0.0"
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials-id'
@@ -47,6 +48,7 @@ pipeline {
                         $env:KUBECONFIG = "$env:KUBECONFIG_PATH"
 						kubectl apply -f $env:DEPLOYMENT_YAML_PATH
 						kubectl apply -f $env:SERVICE_YAML_PATH
+						kubectl apply -f $env:HPA_YAML_PATH
 						
 						# Check if rollout is needed
                         kubectl rollout status deployment accountservice-deployment
