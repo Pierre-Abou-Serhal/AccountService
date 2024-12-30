@@ -26,7 +26,7 @@ public class AccountServiceBAL
         res.AccountList.Add(new()
         {
             Id = 99,
-            AccountType = "Test",
+            AccountType = "Test Mo",
             InitialDeposit = 50000,
             AccountHolderName = "This Account Was Added By Code And Is Not In The DataBase"
         });
