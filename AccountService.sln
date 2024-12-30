@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BAL", "BAL\BAL.csproj", "{B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{0263AFDD-71D5-4BC7-8993-B990D0A255E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountServiceTest", "AccountServiceTest\AccountServiceTest.csproj", "{D851111F-7A1C-410E-994C-B3CA34F38B19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{0263AFDD-71D5-4BC7-8993-B990D0A255E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0263AFDD-71D5-4BC7-8993-B990D0A255E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0263AFDD-71D5-4BC7-8993-B990D0A255E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D851111F-7A1C-410E-994C-B3CA34F38B19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D851111F-7A1C-410E-994C-B3CA34F38B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D851111F-7A1C-410E-994C-B3CA34F38B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D851111F-7A1C-410E-994C-B3CA34F38B19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

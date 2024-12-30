@@ -14,6 +14,28 @@ pipeline {
 
     stages {
 
+		stage('Restore Dependencies') {
+            steps {
+                script {
+                    echo "Restoring dependencies..."
+                    powershell '''
+                        dotnet restore
+                    '''
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    echo "Running tests..."
+                    powershell '''
+                        dotnet test --no-restore --logger:trx
+                    '''
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
