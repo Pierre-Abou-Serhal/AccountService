@@ -47,6 +47,10 @@ pipeline {
                         $env:KUBECONFIG = "$env:KUBECONFIG_PATH"
 						kubectl apply -f $env:DEPLOYMENT_YAML_PATH
 						kubectl apply -f $env:SERVICE_YAML_PATH
+						
+						# Check if rollout is needed
+                        kubectl rollout status deployment accountservice-deployment
+                        kubectl rollout restart deployment accountservice-deployment
                     '''
                 }
             }

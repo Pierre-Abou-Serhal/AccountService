@@ -15,6 +15,7 @@ spec:
       containers:
         - name: accountservice
           image: pierreas/accountservice-v1:1.0.0
+          imagePullPolicy: Always 
           ports:
             - containerPort: 8085
       imagePullSecrets:
