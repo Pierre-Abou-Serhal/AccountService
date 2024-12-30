@@ -14,6 +14,7 @@ COPY AccountService.sln .
 COPY AccountService/*.csproj AccountService/
 COPY BAL/*.csproj BAL/
 COPY DAL/*.csproj DAL/
+COPY AccountServiceTest/*.csproj AccountServiceTest/
 
 # Restore dependencies
 RUN dotnet restore
@@ -22,6 +23,7 @@ RUN dotnet restore
 COPY AccountService/. AccountService/
 COPY BAL/. BAL/
 COPY DAL/. DAL/
+COPY AccountServiceTest/. AccountServiceTest/
 
 # Build the application
 WORKDIR "/src/AccountService"
@@ -35,5 +37,5 @@ RUN dotnet publish "AccountService.csproj" -c $BUILD_CONFIGURATION -o /app/publi
 # Final stage
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPYCOPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "AccountService.dll"]	
