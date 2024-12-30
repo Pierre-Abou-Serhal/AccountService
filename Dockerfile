@@ -37,5 +37,5 @@ RUN dotnet publish "AccountService.csproj" -c $BUILD_CONFIGURATION -o /app/publi
 # Final stage
 FROM base AS final
 WORKDIR /app
-COPYCOPY --from=publish /app/publish .
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "AccountService.dll"]	
