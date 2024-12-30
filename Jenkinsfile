@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig.yaml'
+        KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig'
         DEPLOYMENT_YAML_PATH = 'D:/Repos/AccountService/k8s/deployment.yaml'
         SERVICE_YAML_PATH = 'D:/Repos/AccountService/k8s/service.yaml'
         IMAGE_NAME = 'accountservice-v1'
