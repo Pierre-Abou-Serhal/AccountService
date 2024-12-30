@@ -5,7 +5,16 @@ var builder = WebApplication.CreateBuilder(args);
 var environment = builder.Environment;
 // Add services to the container.
 
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
 builder.Services.AddControllers();
+
+if (environment.IsDevelopment())
+{
+    builder.Configuration.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+}
 
 builder.Services.Configure<AppSetting>(builder.Configuration.GetSection("AppSetting"));
 
