@@ -6,8 +6,9 @@ pipeline {
         DEPLOYMENT_YAML_PATH = "${env.WORKSPACE}/k8s/deployment.yaml"
         SERVICE_YAML_PATH = "${env.WORKSPACE}/k8s/service.yaml"
         IMAGE_NAME = "pierreas/accountservice-v1"
-        IMAGE_TAG = "1.0.0"  // Using Jenkins build number for versioning
-        DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials-id'  // Jenkins Docker Hub credentials ID
+        IMAGE_TAG = "1.0.0"
+        DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials-id'
+		FULL_IMAGE_NAME = "${env.IMAGE_NAME}:${env.IMAGE_TAG}"
     }
 
     stages {
@@ -17,7 +18,7 @@ pipeline {
                 script {
                     echo "Building Docker image..."
                     powershell '''
-                        docker build -t $env:IMAGE_NAME:$env:IMAGE_TAG .
+                        docker build -t $env:FULL_IMAGE_NAME .
                     '''
                 }
             }
@@ -31,7 +32,7 @@ pipeline {
                         powershell '''
                             docker login -u $env:DOCKER_USER -p $env:DOCKER_PASSWORD
 							
-							docker push $env:IMAGE_NAME:$env:IMAGE_TAG
+							docker push $env:FULL_IMAGE_NAME
                         '''
                     }
                 }
