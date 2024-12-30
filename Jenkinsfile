@@ -30,6 +30,8 @@ pipeline {
                         # Push Docker Image with the correct tag
                         docker push pierreas/accountservice-v1:1.0.0
 						
+						$env:KUBECONFIG = "$env:KUBECONFIG_PATH"
+						
                         # Apply Kubernetes Deployment and Service
                         kubectl apply -f $env:DEPLOYMENT_YAML_PATH
                         kubectl apply -f $env:SERVICE_YAML_PATH
