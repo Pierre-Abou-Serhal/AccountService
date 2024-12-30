@@ -16,6 +16,6 @@ spec:
         - name: accountservice
           image: pierreas/accountservice-v1:1.0.0
           ports:
-            - containerPort: 80
+            - containerPort: 8085
       imagePullSecrets:
         - name: dockerhub-secret
