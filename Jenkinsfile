@@ -11,18 +11,6 @@ pipeline {
     }
 
     stages {
-        stage('Docker Login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: "$DOCKER_HUB_CREDENTIALS", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    script {
-                        echo "Logging into Docker..."
-                        powershell '''
-                            docker login -u $env:DOCKER_USER -p $env:DOCKER_PASSWORD
-                        '''
-                    }
-                }
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
@@ -35,13 +23,17 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Docker Login And Push To DockerHub') {
             steps {
-                script {
-                    echo "Pushing Docker image to Docker Hub..."
-                    powershell '''
-                        docker push $env:IMAGE_NAME:$env:IMAGE_TAG
-                    '''
+                withCredentials([usernamePassword(credentialsId: "$DOCKER_HUB_CREDENTIALS", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    script {
+                        echo "Logging into Docker..."
+                        powershell '''
+                            docker login -u $env:DOCKER_USER -p $env:DOCKER_PASSWORD
+							
+							docker push $env:IMAGE_NAME:$env:IMAGE_TAG
+                        '''
+                    }
                 }
             }
         }
