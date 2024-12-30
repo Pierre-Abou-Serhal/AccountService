@@ -23,6 +23,14 @@ public class AccountServiceBAL
 
         res.AccountList = await dal.executeSqlQueryMultiRows<Account>("usp_GetAllAccounts", null, CommandType.StoredProcedure, Dal.QueryType.SELECT);
         
+        res.AccountList.Add(new()
+        {
+            Id = 99,
+            AccountType = "Test",
+            InitialDeposit = 50000,
+            AccountHolderName = "This Account Was Added By Code And Is Not In The DataBase"
+        });
+        
         return res;
     }
 
