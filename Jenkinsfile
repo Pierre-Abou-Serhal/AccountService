@@ -31,8 +31,8 @@ pipeline {
                         docker push pierreas/accountservice-v1:1.0.0
 
                         # Apply Kubernetes Deployment and Service
-                        kubectl apply -f $env:DEPLOYMENT_YAML_PATH
-                        kubectl apply -f $env:SERVICE_YAML_PATH
+                        kubectl apply -f $env:DEPLOYMENT_YAML_PATH --validate=false
+                        kubectl apply -f $env:SERVICE_YAML_PATH --validate=false
                     '''
                 }
             }
