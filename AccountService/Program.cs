@@ -27,8 +27,6 @@ if (!environment.IsDevelopment())
 app.MapOpenApi();
 app.MapScalarApiReference(options => { options.WithTitle("Account Service API"); });
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
