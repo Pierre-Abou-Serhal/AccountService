@@ -2,40 +2,78 @@ pipeline {
     agent any
 
     environment {
-        KUBECONFIG_PATH = 'D:/Repos/AccountService/kubeconfig'
-        DEPLOYMENT_YAML_PATH = 'D:/Repos/AccountService/k8s/deployment.yaml'
-        SERVICE_YAML_PATH = 'D:/Repos/AccountService/k8s/service.yaml'
-        IMAGE_NAME = 'accountservice-v1'
+		KUBECONFIG_PATH = "${env.WORKSPACE}/kubeconfig"
+        DEPLOYMENT_YAML_PATH = "${env.WORKSPACE}/k8s/deployment.yaml"
+        SERVICE_YAML_PATH = "${env.WORKSPACE}/k8s/service.yaml"
+        IMAGE_NAME = "pierreas/accountservice-v1"
         IMAGE_TAG = "1.0.0"  // Using Jenkins build number for versioning
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials-id'  // Jenkins Docker Hub credentials ID
     }
 
     stages {
-        stage('Setup Minikube Docker Daemon') {
+        stage('Docker Login') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "$DOCKER_HUB_CREDENTIALS", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    script {
+                        echo "Logging into Docker..."
+                        powershell '''
+                            docker login -u $env:DOCKER_USER -p $env:DOCKER_PASSWORD
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo "Building Docker image..."
                     powershell '''
-                        Write-Host "Testing Docker connectivity..."
-                        docker info
-                        
-                        # Docker Login using injected credentials
-                        docker login -u $env:DOCKER_USER -p $env:DOCKER_PASSWORD
+                        docker build -t $env:IMAGE_NAME:$env:IMAGE_TAG .
+                    '''
+                }
+            }
+        }
 
-                        # Build Docker Image with a tag that includes the version number
-                        docker build -t pierreas/accountservice-v1:1.0.0 .
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    echo "Pushing Docker image to Docker Hub..."
+                    powershell '''
+                        docker push $env:IMAGE_NAME:$env:IMAGE_TAG
+                    '''
+                }
+            }
+        }
 
-                        # Show Docker images
-                        docker images
+        stage('Set KUBECONFIG') {
+            steps {
+                script {
+                    echo "Setting KUBECONFIG environment variable..."
+                    powershell '''
+                        $env:KUBECONFIG = "$env:KUBECONFIG_PATH"
+                    '''
+                }
+            }
+        }
 
-                        # Push Docker Image with the correct tag
-                        docker push pierreas/accountservice-v1:1.0.0
-						
-						$env:KUBECONFIG = "$env:KUBECONFIG_PATH"
-						
-                        # Apply Kubernetes Deployment and Service
+        stage('Apply Kubernetes Deployment') {
+            steps {
+                script {
+                    echo "Applying Kubernetes Deployment..."
+                    powershell '''
                         kubectl apply -f $env:DEPLOYMENT_YAML_PATH
+                    '''
+                }
+            }
+        }
+
+        stage('Apply Kubernetes Service') {
+            steps {
+                script {
+                    echo "Applying Kubernetes Service..."
+                    powershell '''
                         kubectl apply -f $env:SERVICE_YAML_PATH
-						
                     '''
                 }
             }
