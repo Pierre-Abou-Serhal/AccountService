@@ -39,6 +39,12 @@ if (!environment.IsDevelopment())
 app.MapOpenApi();
 app.MapScalarApiReference(options => { options.WithTitle("Account Service API"); });
 
+app.UseCors(options => options
+    .AllowAnyOrigin()    
+    .AllowAnyMethod()
+    .AllowAnyHeader()   
+);
+
 app.UseAuthorization();
 
 app.MapControllers();
